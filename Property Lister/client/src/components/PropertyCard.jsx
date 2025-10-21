@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MapPin, DollarSign, ArrowRight } from "lucide-react";
+import { MapPin, ArrowRight, IndianRupee } from "lucide-react";
 
 const PropertyCard = ({ property, onViewDetails }) => {
   return (
@@ -38,8 +38,8 @@ const PropertyCard = ({ property, onViewDetails }) => {
           </div>
 
           <div className="flex items-center text-green-400 font-bold mb-4">
-            <DollarSign className="w-5 h-5" />
-            <span className="text-lg">₹{property.price.toLocaleString()}</span>
+            <IndianRupee className="w-5 h-5" />
+            <span className="text-lg">{property.price.toLocaleString()}</span>
           </div>
 
           <p className="text-gray-400 text-sm mb-4 line-clamp-2">

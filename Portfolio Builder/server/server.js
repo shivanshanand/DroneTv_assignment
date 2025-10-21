@@ -1,6 +1,9 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
@@ -8,7 +11,6 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection with error handling
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -88,18 +90,13 @@ app.get("/api/portfolios", async (req, res) => {
 app.get("/api/portfolios/:id", async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Validate MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid portfolio ID format" });
     }
-
     const portfolio = await Portfolio.findById(id);
-
     if (!portfolio) {
       return res.status(404).json({ message: "Portfolio not found" });
     }
-
     res.json(portfolio);
   } catch (error) {
     console.error("Error fetching portfolio:", error);
@@ -121,21 +118,16 @@ app.post("/api/portfolios", async (req, res) => {
 app.put("/api/portfolios/:id", async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Validate MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid portfolio ID format" });
     }
-
     const portfolio = await Portfolio.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
     });
-
     if (!portfolio) {
       return res.status(404).json({ message: "Portfolio not found" });
     }
-
     res.json(portfolio);
   } catch (error) {
     console.error("Error updating portfolio:", error);
